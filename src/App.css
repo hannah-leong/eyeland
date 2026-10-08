@@ -2,13 +2,19 @@
    pearl-aqua #80ced0 · coral-beach #f38380/#f59c99 · banana-split #fbd25f
    mint-cream #e4e5d9/#f4f5f0/#efefe8 · gun-metal #414141 · focus #1b65c5
 
-   Layout targets a single screen (no scrolling) on a mounted display.
+   Sizing philosophy: everything scales with the screen (vh/vw-driven,
+   wide max-width) so a big display gets a big layout, and total content
+   height stays under 100vh — one screen, no scrolling, at any size.
+   Clamp caps are set high enough that they only bind on very large
+   screens — below that, the vh/vw term always decides, so bigger CSS
+   viewports keep growing the layout instead of freezing it.
 
    Compatibility note: every responsive value is written twice — a plain
-   px/rem fallback first, then the clamp() version. Older browsers (some
-   smart-TV browsers) that don't understand clamp() or flexbox `gap` fall
-   back to the sane fixed values instead of collapsing all spacing to 0.
-   Vertical gaps use margins rather than flex `gap` for the same reason. */
+   px/rem fallback first, then the clamp()/min() version. Older browsers
+   (some smart-TV browsers) that don't understand those functions fall
+   back to the sane fixed values instead of collapsing spacing to 0.
+   Vertical gaps use margins rather than flex `gap` for the same reason.
+   (box-sizing:border-box lives in index.css — everything here assumes it.) */
 
 .app {
   min-height: 100vh;
@@ -110,9 +116,10 @@
   position: relative;
   z-index: 1;
   max-width: 960px;
+  max-width: 70vw;
   margin: 0 auto;
-  padding: 30px 24px 40px;
-  padding: clamp(16px, 3vh, 44px) 24px clamp(20px, 3.4vh, 48px);
+  padding: 30px 32px 40px;
+  padding: clamp(14px, 2.4vh, 68px) clamp(20px, 3vw, 64px) clamp(18px, 3vh, 76px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -123,7 +130,7 @@
    auto margins top & bottom center the whole block in the viewport */
 .stage > *:not(:last-child) {
   margin-bottom: 30px;
-  margin-bottom: clamp(14px, 2.8vh, 34px);
+  margin-bottom: clamp(16px, 2.2vh, 64px);
 }
 
 .masthead {
@@ -197,10 +204,10 @@
 
 .eyeball {
   position: relative;
-  width: 200px;
-  height: 200px;
-  width: clamp(130px, 26vh, 250px);
-  height: clamp(130px, 26vh, 250px);
+  width: 190px;
+  height: 190px;
+  width: clamp(140px, 20vh, 520px);
+  height: clamp(140px, 20vh, 520px);
   background: radial-gradient(circle at 35% 30%, #ffffff 55%, #f4f5f0 100%);
   border: 5px solid #414141; /* gun-metal */
   border-radius: 50%;
@@ -294,11 +301,11 @@
   border: 4px solid #414141;
   border-top-width: 14px;
   border-top-color: #fbd25f; /* overridden inline per fact tag */
-  border-radius: 24px;
-  border-radius: clamp(20px, 3vh, 26px);
-  padding: 34px 36px;
-  padding: clamp(18px, 3.2vh, 36px) clamp(22px, 3.5vw, 40px);
-  box-shadow: 10px 10px 0 rgba(65, 65, 65, 0.35);
+  border-radius: 26px;
+  border-radius: clamp(22px, 3.4vh, 56px);
+  padding: 34px 48px;
+  padding: clamp(20px, 2.7vh, 72px) clamp(26px, 4vw, 88px);
+  box-shadow: 14px 14px 0 rgba(65, 65, 65, 0.35);
   text-align: center;
 }
 
@@ -313,8 +320,8 @@
   display: inline-block;
   font-family: "Fredoka", "Avenir Next", sans-serif;
   font-weight: 600;
-  font-size: 0.88rem;
-  font-size: clamp(0.78rem, 1.7vh, 0.92rem);
+  font-size: 0.95rem;
+  font-size: clamp(0.9rem, 2.2vh, 2.1rem);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #414141;
@@ -332,10 +339,10 @@
 }
 
 .fact-emoji {
-  font-size: 46px;
-  font-size: clamp(2.2rem, 5.5vh, 3.4rem);
-  margin-top: 10px;
-  margin-top: clamp(8px, 1.2vh, 14px);
+  font-size: 2.9rem;
+  font-size: clamp(2.4rem, 4.5vh, 7rem);
+  margin-top: 12px;
+  margin-top: clamp(10px, 1.5vh, 26px);
   line-height: 1;
 }
 
@@ -358,10 +365,11 @@
 
 .fact-text {
   margin: 12px 0 0;
-  font-size: 1.5rem;
-  font-size: clamp(1.05rem, 3vh, 1.7rem);
+  margin: clamp(10px, 1.3vh, 30px) 0 0;
+  font-size: 1.7rem;
+  font-size: clamp(1.1rem, 3.15vh, 3.9rem);
   font-weight: 800;
-  line-height: 1.45;
+  line-height: 1.38;
   color: #414141;
 }
 
@@ -369,8 +377,8 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  margin-top: 28px;
-  margin-top: clamp(16px, 2.6vh, 30px);
+  margin-top: 22px;
+  margin-top: clamp(14px, 2.4vh, 52px);
 }
 
 .btn {
@@ -435,10 +443,10 @@
   border: 2px solid #2e2e2e;
   color: #f4f5f0; /* mint-cream-40 */
   font-weight: 600;
-  font-size: 1.05rem;
-  font-size: clamp(0.9rem, 2vh, 1.1rem);
-  padding: 12px 26px;
-  padding: clamp(9px, 1.8vh, 14px) clamp(20px, 3vw, 30px);
+  font-size: 1.15rem;
+  font-size: clamp(1rem, 2.3vh, 1.9rem);
+  padding: 15px 32px;
+  padding: clamp(10px, 1.9vh, 26px) clamp(22px, 3vw, 54px);
   border-radius: 999px;
 }
 
