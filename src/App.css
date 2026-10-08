@@ -1,6 +1,14 @@
 /* Eyeland — styled with Softwire brand colors:
    pearl-aqua #80ced0 · coral-beach #f38380/#f59c99 · banana-split #fbd25f
-   mint-cream #e4e5d9/#f4f5f0/#efefe8 · gun-metal #414141 · focus #1b65c5 */
+   mint-cream #e4e5d9/#f4f5f0/#efefe8 · gun-metal #414141 · focus #1b65c5
+
+   Layout targets a single screen (no scrolling) on a mounted display.
+
+   Compatibility note: every responsive value is written twice — a plain
+   px/rem fallback first, then the clamp() version. Older browsers (some
+   smart-TV browsers) that don't understand clamp() or flexbox `gap` fall
+   back to the sane fixed values instead of collapsing all spacing to 0.
+   Vertical gaps use margins rather than flex `gap` for the same reason. */
 
 .app {
   min-height: 100vh;
@@ -12,7 +20,10 @@
 
 .decor {
   position: fixed;
-  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   pointer-events: none;
   z-index: 0;
 }
@@ -93,24 +104,38 @@
 .stage {
   position: relative;
   z-index: 1;
-  max-width: 840px;
+  max-width: 960px;
   margin: 0 auto;
-  padding: clamp(24px, 5vh, 56px) 20px 48px;
+  padding: 30px 24px 40px;
+  padding: clamp(16px, 3vh, 44px) 24px clamp(20px, 3.4vh, 48px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(20px, 3.5vh, 34px);
+  min-height: 100vh;
+}
+
+/* vertical rhythm via margins (works without flexbox gap);
+   auto margins top & bottom center the whole block in the viewport */
+.stage > *:not(:last-child) {
+  margin-bottom: 30px;
+  margin-bottom: clamp(14px, 2.8vh, 34px);
 }
 
 .masthead {
-  text-align: center;
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .masthead h1 {
   margin: 0;
+  margin-left: 40px;
+  margin-left: clamp(24px, 4.5vw, 64px);
   font-family: "Fredoka", "Avenir Next", "Segoe UI", sans-serif;
   font-weight: 700;
-  font-size: clamp(2.8rem, 9vw, 4.6rem);
+  font-size: 3.1rem;
+  font-size: clamp(2.4rem, 8vh, 4.5rem);
   letter-spacing: -0.02em;
   color: #414141; /* gun-metal */
   text-shadow: 4px 5px 0 rgba(128, 206, 208, 0.45); /* pearl-aqua */
@@ -120,11 +145,16 @@
   color: #f38380; /* coral-beach */
 }
 
+.countdown {
+  margin-bottom: auto;
+}
+
 /* ---------- the eyeball ---------- */
 
 .eye-stage {
   display: flex;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -144,13 +174,15 @@
 
 .eyeball {
   position: relative;
-  width: clamp(200px, 48vw, 320px);
-  height: clamp(200px, 48vw, 320px);
+  width: 200px;
+  height: 200px;
+  width: clamp(130px, 26vh, 250px);
+  height: clamp(130px, 26vh, 250px);
   background: radial-gradient(circle at 35% 30%, #ffffff 55%, #f4f5f0 100%);
   border: 5px solid #414141; /* gun-metal */
   border-radius: 50%;
   overflow: hidden;
-  box-shadow: 12px 14px 0 rgba(65, 65, 65, 0.28);
+  box-shadow: 10px 12px 0 rgba(65, 65, 65, 0.28);
 }
 
 .iris {
@@ -200,14 +232,14 @@
 }
 
 /* The eyelid starts 8px above the circle so its dark edge is hidden
-   while open (it used to show as a black line across the top). */
+   while open; during a blink it drops down and fills the circle. */
 .lid-top {
   position: absolute;
   top: -8px;
   left: -2%;
   right: -2%;
   height: 0%;
-  background: linear-gradient(#ffd8d6, #f59c99); /* coral-tinted lid */
+  background: linear-gradient(#f9cfa8, #eab58a); /* natural skin tone */
   border-bottom: 5px solid #414141;
 }
 
@@ -237,8 +269,12 @@
   width: 100%;
   background: #ffffff;
   border: 4px solid #414141;
-  border-radius: 26px;
-  padding: clamp(22px, 4vw, 36px);
+  border-top-width: 14px;
+  border-top-color: #fbd25f; /* overridden inline per fact tag */
+  border-radius: 24px;
+  border-radius: clamp(20px, 3vh, 26px);
+  padding: 34px 36px;
+  padding: clamp(18px, 3.2vh, 36px) clamp(22px, 3.5vw, 40px);
   box-shadow: 10px 10px 0 rgba(65, 65, 65, 0.35);
   text-align: center;
 }
@@ -247,7 +283,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
   flex-wrap: wrap;
 }
 
@@ -255,24 +290,29 @@
   display: inline-block;
   font-family: "Fredoka", "Avenir Next", sans-serif;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.88rem;
+  font-size: clamp(0.78rem, 1.7vh, 0.92rem);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #414141;
   border: 3px solid #414141;
   border-radius: 999px;
-  padding: 5px 14px;
+  padding: 5px 16px;
 }
 
 .date {
+  margin-left: 18px;
   color: #676767; /* gun-metal-80 */
   font-weight: 700;
   font-size: 0.95rem;
+  font-size: clamp(0.85rem, 1.8vh, 1rem);
 }
 
 .fact-emoji {
-  font-size: clamp(3rem, 9vw, 4.2rem);
-  margin-top: 14px;
+  font-size: 46px;
+  font-size: clamp(2.2rem, 5.5vh, 3.4rem);
+  margin-top: 10px;
+  margin-top: clamp(8px, 1.2vh, 14px);
   line-height: 1;
 }
 
@@ -294,8 +334,9 @@
 }
 
 .fact-text {
-  margin: 16px 0 0;
-  font-size: clamp(1.2rem, 3.4vw, 1.8rem);
+  margin: 12px 0 0;
+  font-size: 1.5rem;
+  font-size: clamp(1.05rem, 3vh, 1.7rem);
   font-weight: 800;
   line-height: 1.45;
   color: #414141;
@@ -305,21 +346,27 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 14px;
-  margin-top: 26px;
+  margin-top: 28px;
+  margin-top: clamp(16px, 2.6vh, 30px);
 }
 
 .btn {
   font-family: "Fredoka", "Avenir Next", sans-serif;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.05rem;
+  font-size: clamp(0.95rem, 2vh, 1.1rem);
   color: #414141;
   border: 3px solid #414141;
   border-radius: 999px;
-  padding: 12px 24px;
+  padding: 13px 26px;
+  padding: clamp(10px, 1.8vh, 15px) clamp(20px, 2.4vw, 30px);
   cursor: pointer;
   box-shadow: 4px 4px 0 #414141;
   transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.btn + .btn {
+  margin-left: 16px;
 }
 
 .btn:hover {
@@ -346,10 +393,12 @@
 }
 
 .peek-note {
-  margin: 18px 0 0;
+  margin: 16px 0 0;
+  margin: clamp(12px, 1.8vh, 20px) 0 0;
   color: #1b65c5;
   font-weight: 700;
   font-size: 0.95rem;
+  font-size: clamp(0.85rem, 1.8vh, 1rem);
 }
 
 /* ---------- countdown footer ---------- */
@@ -359,14 +408,19 @@
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 10px;
   background: #414141; /* gun-metal */
   border: 2px solid #2e2e2e;
   color: #f4f5f0; /* mint-cream-40 */
   font-weight: 600;
-  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
-  padding: 12px 24px;
+  font-size: 1.05rem;
+  font-size: clamp(0.9rem, 2vh, 1.1rem);
+  padding: 12px 26px;
+  padding: clamp(9px, 1.8vh, 14px) clamp(20px, 3vw, 30px);
   border-radius: 999px;
+}
+
+.countdown > span + span {
+  margin-left: 12px;
 }
 
 .countdown strong {
@@ -378,8 +432,21 @@
   color: rgba(244, 245, 240, 0.5);
 }
 
-@media (max-width: 480px) {
-  .countdown .dot {
-    display: none;
+/* ---------- narrow screens: stack the header (display is wide) ---------- */
+
+@media (max-width: 700px) {
+  .masthead {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .masthead h1 {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+
+  .eyeball {
+    width: clamp(160px, 32vh, 240px);
+    height: clamp(160px, 32vh, 240px);
   }
 }

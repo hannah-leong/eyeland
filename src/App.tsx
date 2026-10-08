@@ -112,23 +112,26 @@ function App() {
 
       <main className="stage">
         <header className="masthead">
+          <div className="eye-stage" ref={eyeRef} aria-hidden="true">
+            <div className="eyeball">
+              <div className="iris" ref={irisRef}>
+                <div className="pupil" />
+              </div>
+              <div className="glint" />
+              <div className="glint glint-small" />
+              <div className="lid-top" />
+            </div>
+          </div>
           <h1 aria-label="Eyeland">
             👁️<span className="accent">land</span>
           </h1>
         </header>
 
-        <div className="eye-stage" ref={eyeRef} aria-hidden="true">
-          <div className="eyeball">
-            <div className="iris" ref={irisRef}>
-              <div className="pupil" />
-            </div>
-            <div className="glint" />
-            <div className="glint glint-small" />
-            <div className="lid-top" />
-          </div>
-        </div>
-
-        <section className="fact-card" data-testid="fact-card">
+        <section
+          className="fact-card"
+          data-testid="fact-card"
+          style={{ borderTopColor: tagColor(fact.tag) }}
+        >
           <div className="fact-meta">
             <span className="chip" style={{ background: tagColor(fact.tag) }}>
               {fact.tag}
