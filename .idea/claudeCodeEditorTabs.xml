@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ClaudeCodeEditorTabs">
-    <option name="activeSessionId" value="94683c27-abc0-4708-8f6b-191b86b29bf5" />
+    <option name="activeSessionId" value="767d5385-cf8b-4ec9-becc-7298a4794c46" />
     <option name="openSessionIds">
       <list>
-        <option value="94683c27-abc0-4708-8f6b-191b86b29bf5" />
+        <option value="767d5385-cf8b-4ec9-becc-7298a4794c46" />
       </list>
+    </option>
+    <option name="sessionPaths">
+      <map>
+        <entry key="767d5385-cf8b-4ec9-becc-7298a4794c46" value="/sessions/616c6418-7f39-47fb-ab98-5cd4f9b226da" />
+      </map>
+    </option>
+    <option name="sessionTitles">
+      <map>
+        <entry key="767d5385-cf8b-4ec9-becc-7298a4794c46" value="what is better - opus, haiku or sonnet" />
+      </map>
     </option>
   </component>
 </project>
