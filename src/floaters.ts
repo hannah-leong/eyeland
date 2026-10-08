@@ -37,6 +37,18 @@ function loadContext(): WebpackRequireContext | undefined {
   }
 }
 
+/**
+ * Webpack can export an asset module as a bare URL string (CommonJS) or as
+ * `{ default: url }` depending on the loader — accept both. Reading only
+ * `.default` on the string form yields undefined, which React renders as
+ * src="" (no image ever loads).
+ */
+function resolveSrc(mod: unknown): string {
+  if (typeof mod === "string") return mod;
+  const d = (mod as { default?: unknown } | null)?.default;
+  return typeof d === "string" ? d : "";
+}
+
 function buildFloaters(): Floater[] {
   const ctx = loadContext() ?? globalThis.__FLOATER_CONTEXT__;
   if (!ctx) return [];
@@ -61,7 +73,7 @@ function buildFloaters(): Floater[] {
 
     return {
       key,
-      src: ctx(key).default,
+      src: resolveSrc(ctx(key)),
       top: `${top}%`,
       left: side === "left" ? x : undefined,
       right: side === "right" ? x : undefined,
