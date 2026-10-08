@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { facts, Fact, tagColor } from "./facts";
+import { FLOATERS } from "./floaters";
 import "./App.css";
 
 /** Stable index for the local calendar day (timezone-safe). */
@@ -20,27 +21,6 @@ function formatCountdown(ms: number): string {
   const pad = (n: number) => String(n).padStart(2, "0");
   return `${pad(h)}:${pad(m)}:${pad(s)}`;
 }
-
-const DECOR = [
-  { file: "chef-barnfield.png", top: "7%", left: "4%", w: 4.6, rot: -6, dur: "9.5s", delay: "0s" },
-  { file: "stephanie-the-iol.png", top: "9%", right: "6%", w: 4.2, rot: 5, dur: "8.5s", delay: "1.2s" },
-  { file: "padel-queen.png", top: "36%", left: "8%", w: 4, rot: 7, dur: "7.8s", delay: "0.4s" },
-  { file: "joseph-the-talking-rubber-duck.png", top: "56%", left: "3%", w: 4.6, rot: -4, dur: "9s", delay: "1.7s" },
-  { file: "handsfree-driving.png", top: "48%", right: "9%", w: 4.2, rot: 6, dur: "10s", delay: "2.1s" },
-  { file: "meat-ballfield.png", top: "72%", right: "5%", w: 4.4, rot: -7, dur: "8.2s", delay: "0.8s" },
-  { file: "padel-queen-1.png", top: "30%", right: "7%", w: 4.2, rot: -5, dur: "11s", delay: "1.4s" },
-  { file: "rca-joels-a-babe.png", top: "80%", left: "10%", w: 4.4, rot: 5, dur: "7.5s", delay: "2.4s" },
-  { file: "we-love-val.png", top: "66%", left: "14%", w: 4, rot: 8, dur: "9.8s", delay: "1s" },
-  { file: "all-hail-the-egg2.png", top: "16%", left: "12%", w: 4.6, rot: 5, dur: "8.8s", delay: "0.7s" },
-  { file: "bad-boy-of-data.png", top: "42%", right: "13%", w: 4.4, rot: -6, dur: "10.5s", delay: "1.9s" },
-  { file: "image-1.png", top: "54%", left: "7%", w: 4.2, rot: 6, dur: "7.6s", delay: "2.6s" },
-  { file: "image-2.png", top: "88%", right: "8%", w: 4, rot: -5, dur: "9.2s", delay: "0.5s" },
-  { file: "image-3.png", top: "26%", left: "3%", w: 4.4, rot: 7, dur: "11.5s", delay: "1.3s" },
-  { file: "image-6.png", top: "60%", right: "15%", w: 4.2, rot: -8, dur: "8s", delay: "2.9s" },
-  { file: "rca-transatlantic-cable-repair.png", top: "5%", left: "16%", w: 4.4, rot: -4, dur: "10.8s", delay: "0.2s" },
-  { file: "sir-matthew-barnfield.png", top: "74%", left: "6%", w: 4.6, rot: 6, dur: "8.4s", delay: "1.6s" },
-  { file: "we-really-like-jim.png", top: "22%", right: "17%", w: 4.2, rot: 4, dur: "9.4s", delay: "2.2s" },
-];
 
 function App() {
   const [now, setNow] = useState(() => new Date());
@@ -102,24 +82,24 @@ function App() {
         <div className="blob blob-a" />
         <div className="blob blob-b" />
         <div className="blob blob-c" />
-        {DECOR.map((d, i) => (
+        {FLOATERS.map((f) => (
           <span
-            key={i}
+            key={f.key}
             className="floater"
             style={{
-              top: d.top,
-              left: d.left,
-              right: d.right,
-              animationDuration: d.dur,
-              animationDelay: d.delay,
+              top: f.top,
+              left: f.left,
+              right: f.right,
+              animationDuration: f.dur,
+              animationDelay: f.delay,
             }}
           >
             <img
-              src={`${process.env.PUBLIC_URL}/floaters/${d.file}`}
+              src={f.src}
               alt=""
               style={{
-                width: `clamp(26px, ${d.w}vmin, 90px)`,
-                transform: `rotate(${d.rot}deg)`,
+                width: `clamp(26px, ${f.w}vmin, 90px)`,
+                transform: `rotate(${f.rot}deg)`,
               }}
             />
           </span>
