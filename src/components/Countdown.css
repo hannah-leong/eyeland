@@ -1,0 +1,40 @@
+/* Countdown footer pill. margin-bottom:auto pairs with the masthead's
+   margin-top:auto to centre the column in the viewport. */
+
+.countdown {
+  margin-bottom: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  background: #414141; /* gun-metal */
+  border: 2px solid #2e2e2e;
+  color: #f4f5f0; /* mint-cream-40 */
+  font-weight: 600;
+  font-size: 1.15rem;
+  font-size: clamp(1rem, 2.3vh, 1.9rem);
+  padding: 15px 32px;
+  padding: clamp(10px, 2vh, 26px) clamp(22px, 3vw, 54px);
+  border-radius: 999px;
+}
+
+.countdown > span + span {
+  margin-left: 14px;
+  margin-left: clamp(12px, 1.6vw, 34px);
+}
+
+.countdown strong {
+  color: #fbd25f; /* banana-split */
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown .dot {
+  color: rgba(244, 245, 240, 0.5);
+}
+
+/* very narrow: drop the dot separator and let the text wrap alone */
+@media (max-width: 480px) {
+  .countdown .dot {
+    display: none;
+  }
+}

@@ -1,0 +1,87 @@
+/* Background: blurred colour blobs + floating cutout images */
+
+.decor {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.5;
+}
+
+.blob-a {
+  width: 46vmin;
+  height: 46vmin;
+  background: #80ced0; /* pearl-aqua */
+  top: -12%;
+  left: -8%;
+}
+
+.blob-b {
+  width: 40vmin;
+  height: 40vmin;
+  background: #f59c99; /* coral-beach-80 */
+  bottom: -10%;
+  right: -6%;
+}
+
+.blob-c {
+  width: 30vmin;
+  height: 30vmin;
+  background: #fbd25f; /* banana-split */
+  top: 40%;
+  left: 55%;
+  opacity: 0.35;
+}
+
+.floater {
+  position: absolute;
+  opacity: 0.85;
+}
+
+/* bare cutout PNGs — no frame; drop-shadow follows the alpha shape */
+.floater img {
+  display: block;
+  filter: drop-shadow(0 6px 14px rgba(65, 65, 65, 0.28));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .blob-a {
+    animation: drift 19s ease-in-out infinite alternate;
+  }
+  .blob-b {
+    animation: drift 23s ease-in-out infinite alternate-reverse;
+  }
+  .blob-c {
+    animation: drift 17s ease-in-out infinite alternate;
+  }
+  .floater {
+    animation: floaty 5s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(6vmin, 4vmin) scale(1.15);
+  }
+}
+
+@keyframes floaty {
+  from {
+    transform: translateY(-16px) rotate(-7deg);
+  }
+  to {
+    transform: translateY(18px) rotate(7deg);
+  }
+}
