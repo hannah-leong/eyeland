@@ -139,10 +139,15 @@
   justify-content: center;
 }
 
-.masthead h1 {
-  margin: 0;
+/* symmetric spacing between masthead items — :not() raises specificity
+   above `.masthead h1 { margin: 0 }` so the gap actually applies to h1 */
+.masthead > *:not(:first-child) {
   margin-left: 44px;
   margin-left: clamp(24px, 4.5vw, 96px);
+}
+
+.masthead h1 {
+  margin: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -474,9 +479,12 @@
     text-align: center;
   }
 
-  .masthead h1 {
+  .masthead > *:not(:first-child) {
     margin-left: 0;
     margin-top: 10px;
+  }
+
+  .masthead h1 {
     align-items: center;
   }
 
