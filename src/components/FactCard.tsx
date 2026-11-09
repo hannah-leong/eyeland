@@ -1,12 +1,14 @@
 import React from "react";
 import { Fact, tagColor } from "../facts";
+import { FactPeriod } from "../lib/time";
 import "./FactCard.css";
 
-/** The daily fact: tag chip, date, emoji, fact text, and the peek/back
+/** The current fact (morning or afternoon): tag chip, date, emoji, fact text, and the peek/back
  *  actions. Whether we're peeking (and which fact is shown) is App's state. */
 export function FactCard({
   fact,
   dateLabel,
+  period,
   factKey,
   isPeeking,
   onPeek,
@@ -14,6 +16,8 @@ export function FactCard({
 }: {
   fact: Fact;
   dateLabel: string;
+  /** Which of the day's two facts is current. */
+  period: FactPeriod;
   /** Identifies the shown fact; changing it re-mounts the emoji so the
    *  pop animation replays on every swap. */
   factKey: number;
@@ -31,7 +35,9 @@ export function FactCard({
         <span className="chip" style={{ background: tagColor(fact.tag) }}>
           {fact.tag}
         </span>
-        <span className="date">{dateLabel}</span>
+        <span className="date">
+          {dateLabel} · <span className="period">{period}</span>
+        </span>
       </div>
 
       <div className="fact-emoji" key={`emoji-${factKey}`}>
@@ -48,13 +54,13 @@ export function FactCard({
         </button>
         {isPeeking && (
           <button type="button" className="btn btn-secondary" onClick={onBack}>
-            ↩︎ Back to today's fact
+            ↩︎ Back to this {period}'s fact
           </button>
         )}
       </div>
 
       {isPeeking && (
-        <p className="peek-note">Sneak peek! Today's official fact is still waiting above.</p>
+        <p className="peek-note">Sneak peek! This {period}'s official fact is still waiting for you.</p>
       )}
     </section>
   );

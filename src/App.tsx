@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { facts, Fact } from "./facts";
 import { useNow } from "./hooks/useNow";
-import { formatCountdown, localDayNumber, msUntilNextLocalMidnight } from "./lib/time";
+import {
+  factIndexForSlot,
+  factPeriod,
+  factSlot,
+  formatCountdown,
+  msUntilNextFactChange,
+} from "./lib/time";
 import { Decor } from "./components/Decor";
 import { Masthead } from "./components/Masthead";
 import { FactCard } from "./components/FactCard";
@@ -12,9 +18,11 @@ function App() {
   const now = useNow();
   const [peekIndex, setPeekIndex] = useState<number | null>(null);
 
-  // One fact per day, picked deterministically from the date so everyone
-  // sees the same fact; peeking temporarily swaps in a random other one.
-  const dailyIndex = localDayNumber(now) % facts.length;
+  // Two facts per day — one for the morning, one from noon — picked
+  // deterministically from the date so everyone sees the same fact; peeking
+  // temporarily swaps in a random other one.
+  const period = factPeriod(now);
+  const dailyIndex = factIndexForSlot(factSlot(now), facts.length);
   const isPeeking = peekIndex !== null;
   const shownIndex = peekIndex ?? dailyIndex;
   const fact: Fact = facts[shownIndex];
@@ -25,7 +33,7 @@ function App() {
     day: "numeric",
     year: "numeric",
   });
-  const countdown = formatCountdown(msUntilNextLocalMidnight(now));
+  const countdown = formatCountdown(msUntilNextFactChange(now));
 
   const handlePeek = () => {
     // Any fact other than the one currently on screen.
@@ -42,12 +50,13 @@ function App() {
         <FactCard
           fact={fact}
           dateLabel={dateLabel}
+          period={period}
           factKey={shownIndex}
           isPeeking={isPeeking}
           onPeek={handlePeek}
           onBack={() => setPeekIndex(null)}
         />
-        <Countdown countdown={countdown} />
+        <Countdown countdown={countdown} period={period} />
       </main>
     </div>
   );
