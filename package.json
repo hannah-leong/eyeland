@@ -20,6 +20,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "postbuild": "mkdir -p build/rca-achievements && cp build/index.html build/rca-achievements/index.html",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

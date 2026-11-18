@@ -3,13 +3,40 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from './App';
 
-test('renders the site title and the current fact', () => {
+afterEach(() => {
+  window.history.pushState({}, '', '/');
+});
+
+test('home page renders the site title and the current fact', () => {
   render(<App />);
   expect(
     screen.getByRole('heading', { level: 1, name: /eyeland/i })
   ).toBeInTheDocument();
-  expect(screen.getByTestId('fact-text')).toBeInTheDocument();
   expect(screen.getByTestId('fact-text').textContent!.length).toBeGreaterThan(20);
+  expect(screen.queryByTestId('celebration-card')).not.toBeInTheDocument();
+});
+
+test.each(['/rca-achievements', '/rca-achievements/', '/RCA-Achievements'])(
+  '%s shows the petabyte celebration instead of the fact',
+  (path) => {
+    window.history.pushState({}, '', path);
+    render(<App />);
+    expect(
+      screen.getByRole('heading', { level: 1, name: /eyeland/i })
+    ).toBeInTheDocument();
+    expect(screen.getByTestId('celebration-text')).toHaveTextContent(
+      'Team RCA hit over one petabyte of data!'
+    );
+    expect(screen.queryByTestId('fact-card')).not.toBeInTheDocument();
+  }
+);
+
+test('more confetti button fires a burst', () => {
+  window.history.pushState({}, '', '/rca-achievements');
+  const { container } = render(<App />);
+  expect(container.querySelector('.burst')).toBeNull();
+  userEvent.click(screen.getByRole('button', { name: /more confetti/i }));
+  expect(container.querySelector('.burst')).not.toBeNull();
 });
 
 test('peek button swaps in a different fact', () => {
